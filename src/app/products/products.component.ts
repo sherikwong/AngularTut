@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../product';
+import { ProductService } from '../product.service'
 
 @Component({
   selector: 'app-products',
@@ -7,31 +8,24 @@ import { Product } from '../product';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'iPhone',
-      price: 650,
-    },
-    {
-      id: 2,
-      name: 'Mac',
-      price: 1200,
-    },
-    {
-      id: 3,
-      name: 'iPad',
-      price: 500,
-    },
-  ];
+  products: Product[];
 
   selectedProduct: Product
-  constructor() {}
+
+  constructor(private productService: ProductService) {}
 
   onSelectProduct(product) {
     this.selectedProduct = product;
   }
 
   ngOnInit() {
+    this.getProducts();
+  }
+
+  getProducts(): void {
+    const products = this.productService.getProducts();
+    this.products = products;
   }
 }
+
+// This component asks for the products via imported service
